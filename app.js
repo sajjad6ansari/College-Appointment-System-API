@@ -8,12 +8,10 @@ const xss = require("xss-clean")
 const express = require("express")
 const app = express()
 
-const Student = require("./models/Student")
-const Professor = require("./models/Professor")
-
 const connectDB = require("./db/connect")
 
 const authenticateUser = require("./middlewares/authentication")
+const notFoundMiddleware = require("./middlewares/notFound")
 
 const authRoutes = require("./routes/auth")
 const studentRoutes = require("./routes/student")
@@ -24,25 +22,11 @@ app.use(helmet())
 app.use(cors())
 app.use(xss())
 
-app.get("/api/v1/home", (req, res) => {
-  res.send("college appointment system api")
-})
-
-app.post("/api/v1/student/", async (req, res) => {
-  const student = await Student.create({ ...req.body })
-  res.status(200).json({ user: student })
-})
-
-app.post("/api/v1/professor/", async (req, res) => {
-  const professor = await Professor.create({ ...req.body })
-  res.status(200).json({ user: professor })
-})
-
 app.use("/api/v1", authRoutes)
-app.use("/api/v1/student/appointments", authenticateUser, studentRoutes)
-app.use("/api/v1/professor/appointments", authenticateUser, professorRoutes)
+app.use("/api/v1/student", authenticateUser, studentRoutes)
+app.use("/api/v1/professor", authenticateUser, professorRoutes)
 
-const notFoundMiddleware = require("./middlewares/notFound")
+app.use(notFoundMiddleware)
 
 const port = process.env.PORT || 4000
 const start = async () => {

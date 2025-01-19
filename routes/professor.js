@@ -6,7 +6,7 @@ const {
   confirmCancelAppointment,
 } = require("../controllers/professor")
 
-router.patch("/slots", specifyAvailibility)
-router.patch("/:appointmentId", confirmCancelAppointment)
+router.patch("/appointments/slots", specifyAvailibility)
+router.patch("/appointments/:appointmentId", confirmCancelAppointment)
 
 module.exports = router
