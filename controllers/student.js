@@ -24,18 +24,16 @@ const bookAppointment = async (req, res) => {
 }
 
 const getAppointmentStatus = async (req, res) => {
-  const appointment = await Appointment.findOne({ studentId: req.user.id })
+  const appointment = await Appointment.findById({
+    _id: req.params.appointmentId,
+  })
   if (!appointment) {
     throw new NotFoundError(
       `No such appointment found having studentId: ${req.user.id}`
     )
   }
-  console.log(req.user)
-  res.status(200).json({
-    appointmentId: appointment._id,
-    professorId: appointment.professorId,
-    slot: appointment.status,
-  })
+
+  res.status(200).json(appointment)
 }
 
 module.exports = {

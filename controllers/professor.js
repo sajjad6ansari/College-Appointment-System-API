@@ -20,7 +20,7 @@ const specifyAvailibility = async (req, res) => {
 
 const confirmCancelAppointment = async (req, res) => {
   const appointment = await Appointment.findOneAndUpdate(
-    { studentId: req.body.studentId, professorId: req.user.id },
+    { _id: req.params.appointmentId },
     { status: req.body.status },
     { new: true, upsert: false }
   )

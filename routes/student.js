@@ -7,7 +7,7 @@ const {
   bookAppointment,
 } = require("../controllers/student")
 
-router.get("/status", getAppointmentStatus)
+router.get("/status/:appointmentId", getAppointmentStatus)
 router.get("/slots/:professorId", getSlotofProfessor)
 router.post("/book", bookAppointment)
 

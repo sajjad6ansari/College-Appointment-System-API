@@ -1,11 +1,15 @@
-const Student = require("./models/Student")
-const Professor = require("./models/Professor")
-
 require("dotenv").config()
 require("express-async-errors")
 
+const helmet = require("helmet")
+const cors = require("cors")
+const xss = require("xss-clean")
+
 const express = require("express")
 const app = express()
+
+const Student = require("./models/Student")
+const Professor = require("./models/Professor")
 
 const connectDB = require("./db/connect")
 
@@ -16,6 +20,9 @@ const studentRoutes = require("./routes/student")
 const professorRoutes = require("./routes/professor")
 
 app.use(express.json())
+app.use(helmet())
+app.use(cors())
+app.use(xss())
 
 app.get("/api/v1/home", (req, res) => {
   res.send("college appointment system api")
@@ -35,8 +42,7 @@ app.use("/api/v1", authRoutes)
 app.use("/api/v1/student/appointments", authenticateUser, studentRoutes)
 app.use("/api/v1/professor/appointments", authenticateUser, professorRoutes)
 
-// const notFoundMiddleware = require("./middleware/not-found")
-// const errorHandlerMiddleware = require("./middleware/error-handler")
+const notFoundMiddleware = require("./middlewares/notFound")
 
 const port = process.env.PORT || 4000
 const start = async () => {
