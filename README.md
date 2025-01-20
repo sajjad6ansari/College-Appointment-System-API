@@ -9,19 +9,12 @@ This project enables students to book appointments with professors. Professors c
 
 ```markdown
 # API Documentation
-This API provides a set of endpoints for managing appointments between students and professors. It allows students to authenticate, view available time slots, book appointments, and professors to manage and cancel appointments.
-
+This API provides a set of endpoints for managing appointments between students and professors. It allows students to
+authenticate, view available time slots, book appointments, and professors to manage and cancel appointments.
 
 
 ```
 
-## Authentication
-All requests require authentication using a JWT (JSON Web Token) that must be passed in the **Authorization** header.
-
-Example:
-```
-Authorization: Bearer YOUR_JWT_TOKEN
-```
 
 ## Endpoints
 
@@ -165,9 +158,7 @@ Student can view the status of their booked appointment.
   }
   ```
 
----
 
-```
 
 
 
