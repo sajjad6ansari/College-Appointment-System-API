@@ -47,7 +47,6 @@ const bookAppointment = async (req, res) => {
       }
     }
 
-    // If no overlap, create appointment
     const appointment = await Appointment.create(req.body)
     res.status(200).json(appointment)
   } catch (error) {
