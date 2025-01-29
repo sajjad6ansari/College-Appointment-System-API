@@ -40,10 +40,7 @@ const bookAppointment = async (req, res) => {
 
       // console.log(existingStart)
       // console.log(existingEnd)
-      if (
-        startTime.isBefore(existingEnd) &&
-        endTime.isAfter(existingStart) // Overlapping condition
-      ) {
+      if (startTime.isBefore(existingEnd) && endTime.isAfter(existingStart)) {
         return res
           .status(400)
           .json({ message: "Slot overlaps with an existing appointment." })
