@@ -27,8 +27,8 @@ const bookAppointment = async (req, res) => {
     .split("-")
     .map((time) => moment(time, "hh:mmA"))
 
-  // console.log(startTime)
-  // console.log(endTime)
+  // console.log("startTime" + startTime)
+  // console.log("endTime" + endTime)
 
   const existingAppointments = await Appointment.find({ professorId })
 
@@ -37,8 +37,8 @@ const bookAppointment = async (req, res) => {
       .split("-")
       .map((time) => moment(time, "hh:mmA"))
 
-    // console.log(existingStart)
-    // console.log(existingEnd)
+    // console.log("existingStart" + existingStart)
+    // console.log("existingEnd" + existingEnd)
     if (startTime.isBefore(existingEnd) && endTime.isAfter(existingStart)) {
       return res
         .status(400)
