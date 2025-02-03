@@ -23,12 +23,27 @@ const bookAppointment = async (req, res) => {
 
   const { professorId, slot } = req.body
 
+  const professor = await Professor.findById({ _id: professorId })
+
+  //professor working hours
+  const [pStartTime, pEndTime] = professor.workingHour
+    .split("-")
+    .map((time) => moment(time, "hh:mmA"))
+
+  //student slot
   const [startTime, endTime] = slot
     .split("-")
     .map((time) => moment(time, "hh:mmA"))
 
   // console.log("startTime" + startTime)
   // console.log("endTime" + endTime)
+
+  //Professor working hours check
+  if (startTime.isBefore(pStartTime) || endTime.isAfter(pEndTime)) {
+    return res
+      .status(400)
+      .json({ message: "Slot is outside of working hours of professor" })
+  }
 
   const existingAppointments = await Appointment.find({ professorId })
 
