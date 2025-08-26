@@ -1,0 +1,132 @@
+openapi: 3.0.0
+info:
+  title: College Appointment System API
+  version: 1.0.0
+  description: |
+    **College Appointment System** is a backend API that allows students and professors to seamlessly manage appointment scheduling.
+
+    **🔗 Useful Links**
+    - **Live Deployment**: [https://college-appointment-system-api-80t3.onrender.com](https://college-appointment-system-api-80t3.onrender.com)
+    - **Swagger Docs**: [https://college-appointment-system-api-80t3.onrender.com/api-docs](https://college-appointment-system-api-80t3.onrender.com/api-docs)
+    - **GitHub Repo**: [https://github.com/sajjad6ansari/College-Appointment-System-API](https://github.com/sajjad6ansari/College-Appointment-System-API)
+    - **Postman Collection (with Jest Tests)**: [https://www.postman.com/sajjad6ansari/ahlan/documentation/ypqujwu/college-appointmant-system](https://www.postman.com/sajjad6ansari/ahlan/documentation/ypqujwu/college-appointmant-system)
+
+servers:
+  - url: https://college-appointment-system-api-80t3.onrender.com
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+
+paths:
+  /000/api/v1/login:
+    post:
+      tags:
+        - Authentication
+      summary: Login (Student A2)
+      description: Student authenticates to access the system.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: student2@gmail.com
+                password: student2@456
+                role: student
+      responses:
+        "200":
+          description: Successful login
+          content:
+            application/json: {}
+  /000/api/v1/professor/appointments/slots:
+    patch:
+      tags:
+        - Professor
+      summary: Specify Availability (P1)
+      description: Professor specifies available time slots for appointments.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                workingHour: 10:00AM-5:00PM
+      responses:
+        "200":
+          description: Slots updated successfully
+          content:
+            application/json: {}
+  /000/api/v1/student/appointments/slots/678be1a68762c9a01fc965f0:
+    get:
+      tags:
+        - Student
+      summary: Get Professor Availability
+      description: Student views available time slots for a specific professor.
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /000/api/v1/student/appointments/book/:
+    post:
+      tags:
+        - Student
+      summary: Book Appointment
+      description: Student books an appointment with a professor for a given time slot.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                professorId: 678be1a68762c9a01fc965f0
+                slot: 01:30PM-3:00PM
+      responses:
+        "200":
+          description: Appointment booked successfully
+          content:
+            application/json: {}
+  /000/api/v1/professor/appointments/{appointment_A1_id}:
+    patch:
+      tags:
+        - Professor
+      summary: Cancel Appointment
+      description: Professor cancels a student's appointment.
+      parameters:
+        - name: appointment_A1_id
+          in: path
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: cancel
+      responses:
+        "200":
+          description: Appointment cancelled successfully
+          content:
+            application/json: {}
+  /000/api/v1/student/appointments/status/{appointment_A1_id}:
+    get:
+      tags:
+        - Student
+      summary: Get Appointment Status
+      description: Student checks appointment status by ID.
+      parameters:
+        - name: appointment_A1_id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Status retrieved successfully
+          content:
+            application/json: {}

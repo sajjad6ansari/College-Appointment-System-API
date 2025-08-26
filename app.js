@@ -22,6 +22,20 @@ app.use(helmet())
 app.use(cors())
 app.use(xss())
 
+const path = require("path");
+
+// Serve home page
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "home.html"));
+});
+
+
+const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs");
+const swaggerDocument = YAML.load("./swagger.yaml");
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.use("/api/v1", authRoutes)
 app.use("/api/v1/student", authenticateUser, studentRoutes)
 app.use("/api/v1/professor", authenticateUser, professorRoutes)
