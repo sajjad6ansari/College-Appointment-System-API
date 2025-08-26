@@ -42,7 +42,7 @@
         <div class="max-w-5xl mx-auto">
             <h2 class="text-3xl font-bold text-center mb-10">🚀 Project Overview</h2>
             <p class="text-lg text-gray-700 leading-relaxed text-center">
-                The **College Appointment System API** simplifies the process of managing appointments between students
+                The <strong>College Appointment System API</strong> simplifies the process of managing appointments between students
                 and professors.
                 Built with modern technologies, it ensures smooth authentication, appointment booking, slot management,
                 and status tracking.
@@ -92,61 +92,7 @@
         </div>
     </section>
 
-    <!-- Interactive API Playground -->
-    <section class="py-16 px-6 md:px-20 bg-gray-100">
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-10">⚡ Try API Now</h2>
-
-            <div class="bg-white shadow rounded-2xl p-6">
-                <h3 class="text-lg font-semibold mb-4">🔑 Login</h3>
-                <form id="loginForm" class="space-y-4">
-                    <input type="email" id="email" placeholder="Email" class="w-full px-4 py-2 border rounded" required>
-                    <input type="password" id="password" placeholder="Password" class="w-full px-4 py-2 border rounded"
-                        required>
-                    <button type="submit"
-                        class="bg-indigo-600 text-white px-6 py-2 rounded shadow hover:bg-indigo-500 transition">Login</button>
-                </form>
-                <pre id="loginResponse" class="mt-4 hidden"></pre>
-            </div>
-
-            <div class="bg-white shadow rounded-2xl p-6 mt-8">
-                <h3 class="text-lg font-semibold mb-4">📅 Get Professor Slots</h3>
-                <form id="slotForm" class="space-y-4">
-                    <input type="text" id="professorId" placeholder="Professor ID"
-                        class="w-full px-4 py-2 border rounded" required>
-                    <button type="submit"
-                        class="bg-green-600 text-white px-6 py-2 rounded shadow hover:bg-green-500 transition">Get
-                        Slots</button>
-                </form>
-                <pre id="slotResponse" class="mt-4 hidden"></pre>
-            </div>
-
-            <div class="bg-white shadow rounded-2xl p-6 mt-8">
-                <h3 class="text-lg font-semibold mb-4">📌 Book Appointment</h3>
-                <form id="bookForm" class="space-y-4">
-                    <input type="text" id="bookProfessorId" placeholder="Professor ID"
-                        class="w-full px-4 py-2 border rounded" required>
-                    <input type="text" id="slotTime" placeholder="Slot Time (e.g. 02:00PM-03:00PM)"
-                        class="w-full px-4 py-2 border rounded" required>
-                    <button type="submit"
-                        class="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-500 transition">Book</button>
-                </form>
-                <pre id="bookResponse" class="mt-4 hidden"></pre>
-            </div>
-
-            <div class="bg-white shadow rounded-2xl p-6 mt-8">
-                <h3 class="text-lg font-semibold mb-4">📊 Check Appointment Status</h3>
-                <form id="statusForm" class="space-y-4">
-                    <input type="text" id="appointmentId" placeholder="Appointment ID"
-                        class="w-full px-4 py-2 border rounded" required>
-                    <button type="submit"
-                        class="bg-purple-600 text-white px-6 py-2 rounded shadow hover:bg-purple-500 transition">Check
-                        Status</button>
-                </form>
-                <pre id="statusResponse" class="mt-4 hidden"></pre>
-            </div>
-        </div>
-    </section>
+   
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-gray-300 text-center py-6">
@@ -154,81 +100,7 @@
                 class="text-indigo-400 hover:underline">Sajjad Ansari</a></p>
     </footer>
 
-    <script>
-        // const API_BASE = "https://college-appointment-system-api-80t3.onrender.com";
-        const API_BASE = "http://localhost:4000/";
-
-        // Helper function to display JSON nicely
-        const displayResponse = (element, data) => {
-            element.textContent = JSON.stringify(data, null, 2);
-            element.classList.remove("hidden");
-        };
-
-        // Login API
-        document.getElementById("loginForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-
-            const res = await fetch(`${API_BASE}/api/v1/login`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password, role: "student" })
-            });
-
-            const data = await res.json();
-            displayResponse(document.getElementById("loginResponse"), data);
-            localStorage.setItem("token", data.token || "");
-        });
-
-        // Get Slots API
-        document.getElementById("slotForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const professorId = document.getElementById("professorId").value;
-
-            const res = await fetch(`${API_BASE}/api/v1/student/appointments/slots/${professorId}`, {
-                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-            });
-
-            const data = await res.json();
-            displayResponse(document.getElementById("slotResponse"), data);
-        });
-
-        // Book Appointment API
-        document.getElementById("bookForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const professorId = document.getElementById("bookProfessorId").value;
-            const slot = document.getElementById("slotTime").value;
-
-            const res = await fetch(`${API_BASE}/api/v1/student/appointments/book/`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
-                },
-                body: JSON.stringify({ professorId, slot })
-            });
-
-            const data = await res.json();
-            displayResponse(document.getElementById("bookResponse"), data);
-        });
-
-        // Check Status API
-        document.getElementById("statusForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const appointmentId = document.getElementById("appointmentId").value;
-
-            const res = await fetch(`${API_BASE}/api/v1/student/appointments/status/${appointmentId}`, {
-                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-            });
-
-            const data = await res.json();
-            displayResponse(document.getElementById("statusResponse"), data);
-        });
-
-        // Scroll animations
-        ScrollReveal().reveal('section', { delay: 150, distance: '50px', origin: 'bottom', duration: 900, reset: false });
-    </script>
+   
 </body>
 
 </html>

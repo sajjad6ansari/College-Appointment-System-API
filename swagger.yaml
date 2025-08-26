@@ -1,52 +1,72 @@
 openapi: 3.0.0
 info:
-  title: College Appointment System API
+  title: College Appointment System
   version: 1.0.0
   description: |
-    **College Appointment System** is a backend API that allows students and professors to seamlessly manage appointment scheduling.
+    A robust **College Appointment Booking System** with JWT authentication, Swagger integration, Postman automated tests, and a deployed API.
 
-    **🔗 Useful Links**
-    - **Live Deployment**: [https://college-appointment-system-api-80t3.onrender.com](https://college-appointment-system-api-80t3.onrender.com)
-    - **Swagger Docs**: [https://college-appointment-system-api-80t3.onrender.com/api-docs](https://college-appointment-system-api-80t3.onrender.com/api-docs)
-    - **GitHub Repo**: [https://github.com/sajjad6ansari/College-Appointment-System-API](https://github.com/sajjad6ansari/College-Appointment-System-API)
-    - **Postman Collection (with Jest Tests)**: [https://www.postman.com/sajjad6ansari/ahlan/documentation/ypqujwu/college-appointmant-system](https://www.postman.com/sajjad6ansari/ahlan/documentation/ypqujwu/college-appointmant-system)
-
+    **Useful Links:**
+    - **Live API** → [https://college-appointment-system-api-80t3.onrender.com](https://college-appointment-system-api-80t3.onrender.com)
+    - **Swagger Docs** → [/api-docs](https://college-appointment-system-api-80t3.onrender.com/api-docs)
+    - **GitHub Repo** → [https://github.com/sajjad6ansari/College-Appointment-System-API](https://github.com/sajjad6ansari/College-Appointment-System-API)
+    - **Postman Collection** → [Postman Docs](https://www.postman.com/sajjad6ansari/ahlan/documentation/ypqujwu/college-appointmant-system)
 servers:
   - url: https://college-appointment-system-api-80t3.onrender.com
-
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
-
 paths:
-  /000/api/v1/login:
+  /api/v1/register:
     post:
       tags:
-        - Authentication
-      summary: Login (Student A2)
-      description: Student authenticates to access the system.
+        - Authentication and Authorization
+      summary: Register (Student / Professor)
+      description: Allows students and professors to create a new account.
       requestBody:
         content:
           application/json:
             schema:
               type: object
               example:
-                email: student2@gmail.com
-                password: student2@456
+                name: Sajjad Ansari
+                email: sajjad@example.com
+                password: password123
+                role: student
+      responses:
+        "201":
+          description: User registered successfully
+          content:
+            application/json: {}
+        "400":
+          description: Invalid input or user already exists
+  /api/v1/login:
+    post:
+      tags:
+        - Authentication and Authorization
+      summary: Login (Student / Professor)
+      description: Authenticates a student or professor to access the system.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: sajjad@example.com
+                password: password123
                 role: student
       responses:
         "200":
-          description: Successful login
+          description: Successful response
           content:
             application/json: {}
-  /000/api/v1/professor/appointments/slots:
+  /api/v1/professor/appointments/slots:
     patch:
       tags:
         - Professor
-      summary: Specify Availability (P1)
-      description: Professor specifies available time slots for appointments.
+      summary: Specify Availability
+      description: Professor specifies which time slots are free for appointments.
       requestBody:
         content:
           application/json:
@@ -54,28 +74,38 @@ paths:
               type: object
               example:
                 workingHour: 10:00AM-5:00PM
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: Slots updated successfully
           content:
             application/json: {}
-  /000/api/v1/student/appointments/slots/678be1a68762c9a01fc965f0:
+  /api/v1/student/appointments/slots/{professor_id}:
     get:
       tags:
         - Student
       summary: Get Professor Availability
       description: Student views available time slots for a specific professor.
+      parameters:
+        - name: professor_id
+          in: path
+          schema:
+            type: string
+          required: true
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: Successful response
           content:
             application/json: {}
-  /000/api/v1/student/appointments/book/:
+  /api/v1/student/appointments/book:
     post:
       tags:
         - Student
       summary: Book Appointment
-      description: Student books an appointment with a professor for a given time slot.
+      description: Student books an appointment with a professor.
       requestBody:
         content:
           application/json:
@@ -84,23 +114,19 @@ paths:
               example:
                 professorId: 678be1a68762c9a01fc965f0
                 slot: 01:30PM-3:00PM
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: Appointment booked successfully
           content:
             application/json: {}
-  /000/api/v1/professor/appointments/{appointment_A1_id}:
+  /api/v1/professor/appointments/{appointment_id}:
     patch:
       tags:
         - Professor
       summary: Cancel Appointment
       description: Professor cancels a student's appointment.
-      parameters:
-        - name: appointment_A1_id
-          in: path
-          schema:
-            type: string
-          required: true
       requestBody:
         content:
           application/json:
@@ -108,25 +134,35 @@ paths:
               type: object
               example:
                 status: cancel
-      responses:
-        "200":
-          description: Appointment cancelled successfully
-          content:
-            application/json: {}
-  /000/api/v1/student/appointments/status/{appointment_A1_id}:
-    get:
-      tags:
-        - Student
-      summary: Get Appointment Status
-      description: Student checks appointment status by ID.
+      security:
+        - bearerAuth: []
       parameters:
-        - name: appointment_A1_id
+        - name: appointment_id
           in: path
           schema:
             type: string
           required: true
       responses:
         "200":
-          description: Status retrieved successfully
+          description: Appointment cancelled successfully
+          content:
+            application/json: {}
+  /api/v1/student/appointments/status/{appointment_id}:
+    get:
+      tags:
+        - Student
+      summary: Get Appointment Status
+      description: Student checks their appointment status.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: appointment_id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Successful response
           content:
             application/json: {}
