@@ -5,6 +5,7 @@ const { NotFoundError } = require("../errors")
 const StatusCodes = require("http-status-codes")
 const moment = require("moment")
 const mongoose = require("mongoose")
+const { validateAppointment } = require("../utils/appointmentValidations")
 
 const getSlotofProfessor = async (req, res) => {
   console.log(req.params)
@@ -20,46 +21,30 @@ const getSlotofProfessor = async (req, res) => {
 }
 
 const bookAppointment = async (req, res) => {
-  req.body.studentId = req.user.id
+  req.body.studentId = req.user.userId
 
-  const { professorId, slot } = req.body
+  const { professorId, slot, date } = req.body
 
-  const professor = await Professor.findById({ _id: professorId })
-
-  //professor working hours
-  const [pStartTime, pEndTime] = professor.workingHour
-    .split("-")
-    .map((time) => moment(time, "hh:mmA"))
-
-  //student slot
-  const [startTime, endTime] = slot
-    .split("-")
-    .map((time) => moment(time, "hh:mmA"))
-
-  // console.log("startTime" + startTime)
-  // console.log("endTime" + endTime)
-
-  //Professor working hours check
-  if (startTime.isBefore(pStartTime) || endTime.isAfter(pEndTime)) {
-    return res
-      .status(400)
-      .json({ message: "Slot is outside of working hours of professor" })
+  // Validate required fields
+  if (!professorId || !slot || !date) {
+    return res.status(400).json({ message: "Professor ID, slot, and date are required" })
   }
 
-  const existingAppointments = await Appointment.find({ professorId })
+  const professor = await Professor.findById({ _id: professorId })
+  if (!professor) {
+    return res.status(404).json({ message: "Professor not found" })
+  }
 
-  for (let appointment of existingAppointments) {
-    const [existingStart, existingEnd] = appointment.slot
-      .split("-")
-      .map((time) => moment(time, "hh:mmA"))
+  // Use validation utilities
+  const validation = await validateAppointment(Appointment, {
+    professorId,
+    date,
+    slot,
+    professorWorkingHours: professor.workingHour || "10:00AM-5:00PM"
+  })
 
-    // console.log("existingStart" + existingStart)
-    // console.log("existingEnd" + existingEnd)
-    if (startTime.isBefore(existingEnd) && endTime.isAfter(existingStart)) {
-      return res
-        .status(400)
-        .json({ message: "Slot overlaps with an existing appointment." })
-    }
+  if (!validation.isValid) {
+    return res.status(400).json({ message: validation.message })
   }
 
   const appointment = await Appointment.create(req.body)
@@ -71,7 +56,7 @@ const getAppointmentStatus = async (req, res) => {
   })
   if (!appointment) {
     throw new NotFoundError(
-      `No such appointment found having studentId: ${req.user.id}`
+      `No such appointment found having studentId: ${req.user.userId}`
     )
   }
 
@@ -89,7 +74,7 @@ const getAllProfessors = async (req, res) => {
 
 // Get all appointments for the logged-in student
 const getMyAppointments = async (req, res) => {
-  const appointments = await Appointment.find({ studentId: req.user.id })
+  const appointments = await Appointment.find({ studentId: req.user.userId })
     .populate("professorId", "name email workingHour")
     .sort({ createdAt: -1 })
   
@@ -104,7 +89,7 @@ const cancelMyAppointment = async (req, res) => {
   const appointment = await Appointment.findOneAndUpdate(
     { 
       _id: req.params.appointmentId, 
-      studentId: req.user.id,
+      studentId: req.user.userId,
       status: { $ne: "canceled" } // Can't cancel already canceled appointments
     },
     { status: "canceled" },
@@ -123,7 +108,7 @@ const cancelMyAppointment = async (req, res) => {
 
 // Get student profile
 const getProfile = async (req, res) => {
-  const student = await Student.findById(req.user.id).select("-password")
+  const student = await Student.findById(req.user.userId).select("-password")
   
   if (!student) {
     throw new NotFoundError("Student not found")
@@ -141,37 +126,80 @@ const getProfile = async (req, res) => {
   ])
   
   res.status(200).json({
-    profile: student,
+    student: student,
     appointmentStats
   })
 }
 
 // Update student profile
 const updateProfile = async (req, res) => {
-  const allowedUpdates = ["name", "email"]
-  const updates = {}
-  
-  // Filter only allowed fields
-  Object.keys(req.body).forEach(key => {
-    if (allowedUpdates.includes(key)) {
-      updates[key] = req.body[key]
+  try {
+    // Define allowed fields for student profile updates
+    const allowedUpdates = [
+      "name", "email", "studentId", "department", "year", "program", 
+      "phone", "address", "emergencyContact", "emergencyPhone", 
+      "interests", "bio", "gpa", "dateOfBirth"
+    ]
+    
+    const updates = {}
+    
+    // Filter only allowed fields
+    Object.keys(req.body).forEach(key => {
+      if (allowedUpdates.includes(key)) {
+        updates[key] = req.body[key]
+      }
+    })
+    
+    // Validate that we have at least one field to update
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).json({
+        message: "No valid fields provided for update"
+      })
     }
-  })
-  
-  const student = await Student.findByIdAndUpdate(
-    req.user.id,
-    updates,
-    { new: true, runValidators: true }
-  ).select("-password")
-  
-  if (!student) {
-    throw new NotFoundError("Student not found")
+    
+    const student = await Student.findByIdAndUpdate(
+      req.user.userId,
+      updates,
+      { new: true, runValidators: true }
+    ).select("-password")
+    
+    if (!student) {
+      throw new NotFoundError("Student not found")
+    }
+    
+    res.status(200).json({
+      message: "Profile updated successfully",
+      student: student
+    })
+  } catch (error) {
+    // Handle validation errors
+    if (error.name === 'ValidationError') {
+      const errors = Object.values(error.errors).map(err => err.message)
+      return res.status(400).json({
+        message: "Validation failed",
+        errors: errors
+      })
+    }
+    
+    // Handle duplicate key errors
+    if (error.code === 11000) {
+      const field = Object.keys(error.keyPattern)[0]
+      return res.status(400).json({
+        message: `${field} already exists`,
+        field: field
+      })
+    }
+    
+    // Handle cast errors (invalid ObjectId, etc.)
+    if (error.name === 'CastError') {
+      return res.status(400).json({
+        message: "Invalid data format provided"
+      })
+    }
+    
+    // Re-throw other errors to be handled by global error handler
+    throw error
   }
-  
-  res.status(200).json({
-    message: "Profile updated successfully",
-    profile: student
-  })
 }
 
 module.exports = {

@@ -19,9 +19,15 @@ const AppointmentSchema = new mongoose.Schema({
     ref: "Student",
     required: [true, "please provide Student id"],
   },
+  date: {
+    type: Date,
+    required: [true, "please provide appointment date"],
+  },
   slot: {
     type: String,
     required: true,
   },
+}, {
+  timestamps: true
 })
 module.exports = mongoose.model("Appointment", AppointmentSchema)

@@ -35,6 +35,7 @@ const login = async (req, res) => {
       name: user.name,
       id: user._id,
       email: user.email,
+      role: role, // Include the role in the response
     },
     token,
   })
@@ -71,9 +72,39 @@ const register = async (req, res) => {
       name: user.name,
       id: user._id,
       email: user.email,
+      role: role, // Include the role in the response
     },
     token,
   });
 };
 
-module.exports = { login, register };
+const getCurrentUser = async (req, res) => {
+  // req.user is set by the authentication middleware
+  const userId = req.user.userId;
+  const userRole = req.user.role; // Assuming the JWT includes role information
+  
+  let UserModel;
+  if (userRole === "student") {
+    UserModel = Student;
+  } else if (userRole === "professor") {
+    UserModel = Professor;
+  } else {
+    throw new UnauthenticatedError("Invalid user role");
+  }
+
+  const user = await UserModel.findById(userId).select('-password');
+  if (!user) {
+    throw new UnauthenticatedError("User not found");
+  }
+
+  res.status(StatusCodes.OK).json({
+    user: {
+      name: user.name,
+      id: user._id,
+      email: user.email,
+      role: userRole,
+    }
+  });
+};
+
+module.exports = { login, register, getCurrentUser };

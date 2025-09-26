@@ -21,7 +21,13 @@ const auth = async (req, res, next) => {
       user = await Professor.findById(payload.id).select("-password")
     }
 
-    req.user = user
+    // Include both user data and JWT payload info
+    req.user = {
+      id: payload.id,
+      userId: payload.id,
+      role: payload.role,
+      ...user.toObject()
+    }
     next()
   } catch (error) {
     throw new UnauthenticatedError("Authentication Invalid ")

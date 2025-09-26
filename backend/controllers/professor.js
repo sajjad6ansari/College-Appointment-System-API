@@ -5,7 +5,7 @@ const mongoose = require("mongoose")
 
 const specifyAvailibility = async (req, res) => {
   const professor = await Professor.findByIdAndUpdate(
-    { _id: req.user.id },
+    { _id: req.user.userId },
     req.body,
     { new: true }
   )
@@ -32,7 +32,7 @@ const confirmCancelAppointment = async (req, res) => {
 const getAllMyAppointments = async (req, res) => {
   const { status, limit = 50, page = 1 } = req.query
   
-  const query = { professorId: req.user.id }
+  const query = { professorId: req.user.userId }
   if (status) {
     query.status = status
   }
@@ -57,7 +57,7 @@ const getAllMyAppointments = async (req, res) => {
 const getAppointmentDetail = async (req, res) => {
   const appointment = await Appointment.findOne({
     _id: req.params.appointmentId,
-    professorId: req.user.id
+    professorId: req.user.userId
   }).populate("studentId", "name email")
   
   if (!appointment) {
@@ -69,7 +69,7 @@ const getAppointmentDetail = async (req, res) => {
 
 // Get dashboard statistics for professor
 const getDashboardStats = async (req, res) => {
-  const professorId = new mongoose.Types.ObjectId(req.user.id)
+  const professorId = new mongoose.Types.ObjectId(req.user.userId)
   
   // Get appointment statistics
   const appointmentStats = await Appointment.aggregate([
@@ -99,7 +99,8 @@ const getDashboardStats = async (req, res) => {
   
   const todayAppointments = await Appointment.find({
     professorId,
-    createdAt: { $gte: today, $lt: tomorrow }
+    date: { $gte: today, $lt: tomorrow },
+    status: { $ne: "canceled" }
   }).populate("studentId", "name email")
   
   res.status(200).json({
@@ -113,7 +114,7 @@ const getDashboardStats = async (req, res) => {
 
 // Get professor profile
 const getProfile = async (req, res) => {
-  const professor = await Professor.findById(req.user.id).select("-password")
+  const professor = await Professor.findById(req.user.userId).select("-password")
   
   if (!professor) {
     throw new NotFoundError("Professor not found")
@@ -131,37 +132,81 @@ const getProfile = async (req, res) => {
   ])
   
   res.status(200).json({
-    profile: professor,
+    professor: professor,
     appointmentStats
   })
 }
 
 // Update professor profile
 const updateProfile = async (req, res) => {
-  const allowedUpdates = ["name", "email", "workingHour"]
-  const updates = {}
-  
-  // Filter only allowed fields
-  Object.keys(req.body).forEach(key => {
-    if (allowedUpdates.includes(key)) {
-      updates[key] = req.body[key]
+  try {
+    // Define allowed fields for professor profile updates
+    const allowedUpdates = [
+      "name", "email", "workingHour", "department", "specialization", 
+      "phone", "bio", "officeLocation", "officeHours", "qualifications", 
+      "experience", "employeeId", "title", "yearsOfExperience", 
+      "isAvailableForAppointments"
+    ]
+    
+    const updates = {}
+    
+    // Filter only allowed fields
+    Object.keys(req.body).forEach(key => {
+      if (allowedUpdates.includes(key)) {
+        updates[key] = req.body[key]
+      }
+    })
+    
+    // Validate that we have at least one field to update
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).json({
+        message: "No valid fields provided for update"
+      })
     }
-  })
-  
-  const professor = await Professor.findByIdAndUpdate(
-    req.user.id,
-    updates,
-    { new: true, runValidators: true }
-  ).select("-password")
-  
-  if (!professor) {
-    throw new NotFoundError("Professor not found")
+    
+    const professor = await Professor.findByIdAndUpdate(
+      req.user.userId,
+      updates,
+      { new: true, runValidators: true }
+    ).select("-password")
+    
+    if (!professor) {
+      throw new NotFoundError("Professor not found")
+    }
+    
+    res.status(200).json({
+      message: "Profile updated successfully",
+      professor: professor
+    })
+  } catch (error) {
+    // Handle validation errors
+    if (error.name === 'ValidationError') {
+      const errors = Object.values(error.errors).map(err => err.message)
+      return res.status(400).json({
+        message: "Validation failed",
+        errors: errors
+      })
+    }
+    
+    // Handle duplicate key errors
+    if (error.code === 11000) {
+      const field = Object.keys(error.keyPattern)[0]
+      return res.status(400).json({
+        message: `${field} already exists`,
+        field: field
+      })
+    }
+    
+    // Handle cast errors (invalid ObjectId, etc.)
+    if (error.name === 'CastError') {
+      return res.status(400).json({
+        message: "Invalid data format provided"
+      })
+    }
+    
+    // Re-throw other errors to be handled by global error handler
+    throw error
   }
-  
-  res.status(200).json({
-    message: "Profile updated successfully",
-    profile: professor
-  })
 }
 
 module.exports = {
