@@ -6,19 +6,20 @@ info:
     A robust **College Appointment Booking System** with JWT authentication, Swagger integration, Postman automated tests, and a deployed API.
 
     **Useful Links:**
-    - **Live API** → [https://college-appointment-system-api-80t3.onrender.com](https://college-appointment-system-api-80t3.onrender.com)
-    - **Swagger Docs** → [/api-docs](https://college-appointment-system-api-80t3.onrender.com/api-docs)
+    - **Live API** → [https://college-appointment-backend.onrender.com](https://college-appointment-backend.onrender.com)
+    - **Swagger Docs** → [/api-docs](https://college-appointment-backend.onrender.com/api-docs)
+    - **API JSON** → [/api/v1/docs](https://college-appointment-backend.onrender.com/api/v1/docs)
     - **GitHub Repo** → [https://github.com/sajjad6ansari/College-Appointment-System-API](https://github.com/sajjad6ansari/College-Appointment-System-API)
     - **Postman Collection** → [Postman Docs](https://www.postman.com/sajjad6ansari/ahlan/documentation/ypqujwu/college-appointmant-system)
 servers:
-  - url: https://college-appointment-system-api-80t3.onrender.com
+  - url: https://college-appointment-backend.onrender.com
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
 paths:
-  /api/v1/register:
+  /api/v1/auth/register:
     post:
       tags:
         - Authentication and Authorization
@@ -41,7 +42,7 @@ paths:
             application/json: {}
         "400":
           description: Invalid input or user already exists
-  /api/v1/login:
+  /api/v1/auth/login:
     post:
       tags:
         - Authentication and Authorization

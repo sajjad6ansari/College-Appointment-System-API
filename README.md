@@ -377,9 +377,59 @@ npm run dev
 ```
 
 ### 4. Access the Application
+
+#### **Development (Local):**
 - **Frontend**: http://localhost:5173
 - **Backend API**: http://localhost:4000
-- **API Documentation**: http://localhost:4000/api/v1/docs (if Swagger is configured)
+- **API Documentation**: http://localhost:4000/api-docs
+- **Health Check**: http://localhost:4000/health
+
+#### **Production (Deployed):**
+- **Backend API**: https://college-appointment-backend.onrender.com
+- **API Documentation**: https://college-appointment-backend.onrender.com/api-docs
+- **Health Check**: https://college-appointment-backend.onrender.com/health
+
+## 🐳 Docker Deployment
+
+### Quick Start with Docker
+
+1. **Build and run using Docker Compose:**
+```bash
+# Copy environment file
+cp backend/.env.example backend/.env
+# Edit .env with your configuration
+
+# Build and start services
+docker-compose up -d
+```
+
+2. **Or build manually:**
+```bash
+# Build the backend image
+cd backend
+docker build -t college-appointment-backend .
+
+# Run the container
+docker run -p 4000:4000 --env-file .env college-appointment-backend
+```
+
+3. **Using build scripts:**
+```bash
+# For Linux/Mac
+./docker-build.sh
+
+# For Windows
+docker-build.bat
+```
+
+### Docker Configuration
+
+The application includes:
+- **Dockerfile** for backend containerization
+- **docker-compose.yml** for multi-service orchestration
+- **Health checks** for container monitoring
+- **Security best practices** with non-root user
+- **Production-ready** Alpine Linux base image
 
 ## 📚 API Documentation
 The API documentation is available through Swagger at `/api-docs` when the server is running. The system includes comprehensive API endpoints for:

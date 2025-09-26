@@ -32,7 +32,11 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response?.status === 401) {
+    console.error('API Error:', error);
+    
+    if (error.code === 'NETWORK_ERROR' || error.message === 'Network Error') {
+      toast.error('Network error. Please check your internet connection and backend server.');
+    } else if (error.response?.status === 401) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       window.location.href = '/login';
@@ -40,7 +44,9 @@ api.interceptors.response.use(
     } else if (error.response?.data?.message) {
       toast.error(error.response.data.message);
     } else if (error.message) {
-      toast.error(error.message);
+      toast.error(`Connection error: ${error.message}`);
+    } else {
+      toast.error('An unexpected error occurred. Please try again.');
     }
     return Promise.reject(error);
   }

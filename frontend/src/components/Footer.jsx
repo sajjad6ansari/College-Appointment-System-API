@@ -50,13 +50,53 @@ const Footer = () => {
   const resourceLinks = [
     {
       name: 'API Documentation',
-      href: 'http://localhost:4000/api-docs',
+      href:'https://college-appointment-backend.onrender.com/api-docs',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
       ),
       tooltip: 'View API Documentation'
+    },
+    {
+      name: 'API Specification',
+      href:'https://college-appointment-backend.onrender.com/api/v1/docs',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+        </svg>
+      ),
+      tooltip: 'Beautiful API specification with download option'
+    },
+    {
+      name: 'API Overview',
+      href:'https://college-appointment-backend.onrender.com/api/v1/docs/info',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+      tooltip: 'Comprehensive API overview and endpoint reference'
+    },
+    {
+      name: 'Live API Base',
+      href: 'https://college-appointment-backend.onrender.com/api/v1',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9" />
+        </svg>
+      ),
+      tooltip: 'Direct access to production API base URL'
+    },
+    {
+      name: 'Health Check',
+      href: ('https://college-appointment-backend.onrender.com') + '/health',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+      ),
+      tooltip: 'Check API server status and uptime'
     },
     {
       name: 'Postman Collection',

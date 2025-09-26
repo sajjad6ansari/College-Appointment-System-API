@@ -1,5 +1,5 @@
-// Base URL for the API
-const BASE_URL = 'http://localhost:4000/api/v1';
+// Base URL for the API - Use environment variable if available, fallback to production URL
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://college-appointment-backend.onrender.com/api/v1';
 
 // API Endpoints Configuration with both full URLs and relative paths
 const API_ENDPOINTS = {
@@ -8,9 +8,9 @@ const API_ENDPOINTS = {
 
   // Authentication Endpoints
   AUTH: {
-    LOGIN: `/login`,
-    REGISTER: `/register`,
-    GET_CURRENT_USER: `/me`,
+    LOGIN: `/auth/login`,
+    REGISTER: `/auth/register`,
+    GET_CURRENT_USER: `/auth/me`,
   },
 
   // Student Endpoints
@@ -101,8 +101,8 @@ const API_HELPERS = {
 // Environment-specific base URLs
 const ENVIRONMENT_URLS = {
   development: 'http://localhost:4000/api/v1',
-  production: 'https://your-production-api.com/api/v1', // Replace with your production URL
-  staging: 'https://your-staging-api.com/api/v1', // Replace with your staging URL
+  production: 'https://college-appointment-backend.onrender.com/api/v1',
+  staging: 'https://college-appointment-backend.onrender.com/api/v1',
 };
 
 // Get base URL based on environment

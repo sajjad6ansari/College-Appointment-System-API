@@ -20,7 +20,11 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "docker:build": "docker build -t college-appointment-backend .",
+    "docker:run": "docker run -p 4000:4000 --env-file .env college-appointment-backend",
+    "docker:compose": "docker-compose up -d"
   },
   "keywords": [],
   "author": "",
