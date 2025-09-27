@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser, clearError } from '@/store/authSlice';
 import { Button, Input, Card, CardHeader, CardContent, Select } from '@/components/ui';
+import AuthLoadingWarning from './AuthLoadingWarning';
 import toast from 'react-hot-toast';
 
 const Login = () => {
@@ -200,6 +201,7 @@ const Login = () => {
 
         <Card className="bg-white shadow-xl border-0 rounded-2xl">
           <CardContent className="p-8">
+            <AuthLoadingWarning isVisible={isLoading} />
             <form className="space-y-6" onSubmit={handleSubmit(onSubmit)} noValidate>
               <Select
                 label="Role"
