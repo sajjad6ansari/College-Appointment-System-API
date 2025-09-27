@@ -7,7 +7,6 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Layout from './components/Layout';
-import BackendWarning from './components/BackendWarning';
 
 // Import pages (will create these next)
 import StudentDashboard from './pages/student/Dashboard';
@@ -34,7 +33,6 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <BackendWarning />
           <Routes>
             {/* Public routes */}
             <Route path="/login" element={<Login />} />

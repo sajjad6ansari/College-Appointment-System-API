@@ -3,8 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser, clearError } from '@/store/authSlice';
-import { Button, Input, Card, CardContent, Select } from '@/components/ui';
-import AuthLoadingWarning from './AuthLoadingWarning';
+import { Button, Input, Card, CardHeader, CardContent, Select } from '@/components/ui';
 import toast from 'react-hot-toast';
 
 const Register = () => {
@@ -96,7 +95,6 @@ const Register = () => {
 
         <Card className="bg-white shadow-xl border-0 rounded-2xl">
           <CardContent className="p-8">
-            <AuthLoadingWarning isVisible={isLoading} />
             <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
               <Select
                 label="Role"
