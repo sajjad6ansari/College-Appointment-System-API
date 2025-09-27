@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Information - College Appointment System</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 min-h-screen">
+  <div class="container mx-auto px-4 py-8">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <div class="inline-block p-4 bg-white/10 rounded-full mb-4">
+        <div class="text-6xl">🎓</div>
+      </div>
+      <h1 class="text-4xl font-bold text-white mb-4">College Appointment System</h1>
+      <p class="text-xl text-purple-200">REST API Information & Quick Reference</p>
+    </div>
+
+    <!-- API Stats -->
+    <div class="grid md:grid-cols-4 gap-4 mb-8">
+      <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center">
+        <div class="text-3xl font-bold text-green-400">✅</div>
+        <div class="text-white font-semibold mt-2">Status</div>
+        <div class="text-green-300 text-sm">Online</div>
+      </div>
+      <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center">
+        <div class="text-3xl font-bold text-blue-400">📱</div>
+        <div class="text-white font-semibold mt-2">Version</div>
+        <div class="text-blue-300 text-sm">v1.0.0</div>
+      </div>
+      <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center">
+        <div class="text-3xl font-bold text-yellow-400">🔗</div>
+        <div class="text-white font-semibold mt-2">Endpoints</div>
+        <div class="text-yellow-300 text-sm">15+ Routes</div>
+      </div>
+      <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center">
+        <div class="text-3xl font-bold text-purple-400">🔐</div>
+        <div class="text-white font-semibold mt-2">Security</div>
+        <div class="text-purple-300 text-sm">JWT Auth</div>
+      </div>
+    </div>
+
+    <!-- Endpoints Overview -->
+    <div class="grid md:grid-cols-2 gap-8 mb-8">
+      <!-- Authentication -->
+      <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+        <h3 class="text-xl font-bold text-white mb-4 flex items-center">
+          <span class="text-2xl mr-2">🔐</span> Authentication
+        </h3>
+        <div class="space-y-2">
+          <div class="flex justify-between items-center p-2 bg-white/5 rounded">
+            <span class="text-green-400 font-mono text-sm">POST</span>
+            <span class="text-white">/api/v1/auth/register</span>
+          </div>
+          <div class="flex justify-between items-center p-2 bg-white/5 rounded">
+            <span class="text-blue-400 font-mono text-sm">POST</span>
+            <span class="text-white">/api/v1/auth/login</span>
+          </div>
+          <div class="flex justify-between items-center p-2 bg-white/5 rounded">
+            <span class="text-yellow-400 font-mono text-sm">GET</span>
+            <span class="text-white">/api/v1/auth/me</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Student Routes -->
+      <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+        <h3 class="text-xl font-bold text-white mb-4 flex items-center">
+          <span class="text-2xl mr-2">👨‍🎓</span> Student
+        </h3>
+        <div class="space-y-2">
+          <div class="flex justify-between items-center p-2 bg-white/5 rounded">
+            <span class="text-green-400 font-mono text-sm">POST</span>
+            <span class="text-white">/api/v1/student/appointments</span>
+          </div>
+          <div class="flex justify-between items-center p-2 bg-white/5 rounded">
+            <span class="text-yellow-400 font-mono text-sm">GET</span>
+            <span class="text-white">/api/v1/student/appointments</span>
+          </div>
+          <div class="flex justify-between items-center p-2 bg-white/5 rounded">
+            <span class="text-yellow-400 font-mono text-sm">GET</span>
+            <span class="text-white">/api/v1/student/professors</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Professor Routes -->
+      <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+        <h3 class="text-xl font-bold text-white mb-4 flex items-center">
+          <span class="text-2xl mr-2">👨‍🏫</span> Professor
+        </h3>
+        <div class="space-y-2">
+          <div class="flex justify-between items-center p-2 bg-white/5 rounded">
+            <span class="text-yellow-400 font-mono text-sm">GET</span>
+            <span class="text-white">/api/v1/professor/appointments</span>
+          </div>
+          <div class="flex justify-between items-center p-2 bg-white/5 rounded">
+            <span class="text-blue-400 font-mono text-sm">PATCH</span>
+            <span class="text-white">/api/v1/professor/appointments/:id</span>
+          </div>
+          <div class="flex justify-between items-center p-2 bg-white/5 rounded">
+            <span class="text-purple-400 font-mono text-sm">PUT</span>
+            <span class="text-white">/api/v1/professor/availability</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- System Routes -->
+      <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+        <h3 class="text-xl font-bold text-white mb-4 flex items-center">
+          <span class="text-2xl mr-2">⚙️</span> System
+        </h3>
+        <div class="space-y-2">
+          <div class="flex justify-between items-center p-2 bg-white/5 rounded">
+            <span class="text-yellow-400 font-mono text-sm">GET</span>
+            <span class="text-white">/health</span>
+          </div>
+          <div class="flex justify-between items-center p-2 bg-white/5 rounded">
+            <span class="text-yellow-400 font-mono text-sm">GET</span>
+            <span class="text-white">/api-docs</span>
+          </div>
+          <div class="flex justify-between items-center p-2 bg-white/5 rounded">
+            <span class="text-yellow-400 font-mono text-sm">GET</span>
+            <span class="text-white">/api/v1/docs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Start Guide -->
+    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-8 mb-8">
+      <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+        <span class="text-3xl mr-3">🚀</span> Quick Start Guide
+      </h2>
+      
+      <div class="grid md:grid-cols-2 gap-8">
+        <div>
+          <h3 class="text-lg font-semibold text-purple-300 mb-3">1. Authentication</h3>
+          <div class="bg-gray-900 rounded-lg p-4 text-sm">
+            <div class="text-green-400 mb-2">// Register a new user</div>
+            <div class="text-white">POST /api/v1/auth/register</div>
+            <div class="text-gray-400 mt-2">
+              {<br>
+              &nbsp;&nbsp;"name": "John Doe",<br>
+              &nbsp;&nbsp;"email": "john@college.edu",<br>
+              &nbsp;&nbsp;"password": "password123",<br>
+              &nbsp;&nbsp;"role": "student"<br>
+              }
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold text-purple-300 mb-3">2. Authorization</h3>
+          <div class="bg-gray-900 rounded-lg p-4 text-sm">
+            <div class="text-green-400 mb-2">// Include JWT token in headers</div>
+            <div class="text-white">Authorization: Bearer &lt;token&gt;</div>
+            <div class="text-gray-400 mt-2">
+              // Example request<br>
+              GET /api/v1/student/appointments<br>
+              Headers: { Authorization: Bearer eyJ... }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Links -->
+    <div class="text-center mb-8">
+      <div class="flex justify-center space-x-4">
+        <a href="/api-docs" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-200">
+          Interactive Docs
+        </a>
+        <a href="/" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg transition-colors duration-200">
+          Home
+        </a>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center text-purple-200 text-sm">
+      <p>🚀 College Appointment System API • Built with Express.js & MongoDB</p>
+      <p class="mt-2">
+        <a href="https://github.com/sajjad6ansari/College-Appointment-System-API" class="hover:text-white transition-colors">GitHub Repository</a> • 
+        <a href="https://www.postman.com/sajjad6ansari/ahlan/documentation/ypqujwu/college-appointmant-system" class="hover:text-white transition-colors">Postman Collection</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

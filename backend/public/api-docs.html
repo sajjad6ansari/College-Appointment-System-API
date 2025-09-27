@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Documentation - College Appointment System</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900 min-h-screen">
+  <div class="container mx-auto px-4 py-8">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-white mb-4">📚 API Documentation</h1>
+      <p class="text-xl text-blue-200 mb-6">College Appointment System</p>
+      <div class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-full text-sm font-medium">
+        <div class="w-2 h-2 bg-green-300 rounded-full mr-2 animate-pulse"></div>
+        API Status: Online
+      </div>
+    </div>
+
+    <!-- Navigation Cards -->
+    <div class="grid md:grid-cols-3 gap-6 mb-12">
+      <a href="/api-docs" class="block bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-1">
+        <div class="text-3xl mb-4">🔧</div>
+        <h3 class="text-xl font-semibold text-white mb-2">Interactive Docs</h3>
+        <p class="text-blue-200 text-sm">Test endpoints directly with Swagger UI</p>
+      </a>
+      
+      <a href="/api/v1/docs/info" class="block bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-1">
+        <div class="text-3xl mb-4">ℹ️</div>
+        <h3 class="text-xl font-semibold text-white mb-2">API Information</h3>
+        <p class="text-blue-200 text-sm">Quick reference and endpoint overview</p>
+      </a>
+      
+      <a href="/health" class="block bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-1">
+        <div class="text-3xl mb-4">💚</div>
+        <h3 class="text-xl font-semibold text-white mb-2">Health Check</h3>
+        <p class="text-blue-200 text-sm">Monitor API status and uptime</p>
+      </a>
+    </div>
+
+    <!-- OpenAPI Specification -->
+    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-8 mb-8">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-white">📄 OpenAPI Specification</h2>
+        <button onclick="downloadJSON()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200">
+          📥 Download JSON
+        </button>
+      </div>
+      
+      <div class="bg-gray-800 rounded-lg p-4 overflow-x-auto">
+        <pre><code class="language-json" id="swagger-content">Loading specification...</code></pre>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center text-blue-200 text-sm">
+      <p>🚀 College Appointment System API • Version 1.0.0</p>
+      <p class="mt-2">
+        <a href="https://github.com/sajjad6ansari/College-Appointment-System-API" class="hover:text-white transition-colors">GitHub</a> • 
+        <a href="https://www.postman.com/sajjad6ansari/ahlan/documentation/ypqujwu/college-appointmant-system" class="hover:text-white transition-colors">Postman</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Load swagger specification
+    fetch('/swagger.yaml')
+      .then(response => response.text())
+      .then(data => {
+        // For now, just show loading message
+        // You can add YAML parsing here if needed
+        document.getElementById('swagger-content').textContent = 'Swagger specification loaded. Visit /api-docs for interactive documentation.';
+      })
+      .catch(error => {
+        document.getElementById('swagger-content').textContent = 'Error loading specification. Please try again later.';
+      });
+
+    function downloadJSON() {
+      fetch('/swagger.yaml')
+        .then(response => response.text())
+        .then(data => {
+          const downloadAnchorNode = document.createElement('a');
+          downloadAnchorNode.setAttribute("href", "data:text/yaml;charset=utf-8," + encodeURIComponent(data));
+          downloadAnchorNode.setAttribute("download", "college-appointment-api-spec.yaml");
+          document.body.appendChild(downloadAnchorNode);
+          downloadAnchorNode.click();
+          downloadAnchorNode.remove();
+        });
+    }
+  </script>
+</body>
+</html>

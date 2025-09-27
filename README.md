@@ -389,7 +389,6 @@ College-Appointment-System/
 │       │   └── authSlice.js           # Authentication slice
 │       └── 📁 utils/                  # Utility functions
 │           ├── apis.js                # API endpoints configuration
-│           ├── apiExamples.js         # API usage examples
 │           └── index.js               # Utility exports
 │
 ├── 📄 README.md                       # This file
@@ -828,24 +827,6 @@ curl -X POST "https://college-appointment-backend.onrender.com/api/v1/auth/login
 ```
 
 ### Frontend Testing
-
-#### Debug Utilities
-
-The frontend includes debug utilities for API connectivity:
-
-```javascript
-// Test API connectivity from browser console
-import { testApiConnectivity } from './src/utils/debugApi.js';
-testApiConnectivity();
-
-// Test specific endpoints
-import { testConnection } from './src/utils/testConnection.js';
-testConnection();
-
-// Test footer links
-import { testFooterLinks } from './src/utils/testFooterLinks.js';
-testFooterLinks();
-```
 
 #### Browser Testing
 

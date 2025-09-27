@@ -55,24 +55,35 @@ export const Input = ({
   required = false,
   ...props 
 }) => {
+  // Check if we're on auth pages by looking at window location or passing a prop
+  const isAuthPage = window.location.pathname.includes('/login') || window.location.pathname.includes('/register');
+  
   return (
-    <div className="space-y-1">
+    <div className="space-y-2">
       {label && (
-        <label className="block text-sm font-medium text-gray-700">
+        <label className={clsx(
+          "block text-sm font-semibold",
+          isAuthPage ? "text-gray-700" : "text-gray-700"
+        )}>
           {label}
           {required && <span className="text-red-500 ml-1">*</span>}
         </label>
       )}
       <input
         className={clsx(
-          'w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
-          error && 'border-red-500 focus:ring-red-500',
+          'w-full px-4 py-3 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2',
+          isAuthPage 
+            ? 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-blue-200' 
+            : 'border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+          error && 'border-red-500 focus:ring-red-200 focus:border-red-500',
           className
         )}
         {...props}
       />
       {error && (
-        <p className="text-sm text-red-600">{error}</p>
+        <p className="text-sm font-medium text-red-600">
+          {error}
+        </p>
       )}
     </div>
   );
@@ -86,30 +97,40 @@ export const Select = ({
   required = false,
   ...props 
 }) => {
+  const isAuthPage = window.location.pathname.includes('/login') || window.location.pathname.includes('/register');
+  
   return (
-    <div className="space-y-1">
+    <div className="space-y-2">
       {label && (
-        <label className="block text-sm font-medium text-gray-700">
+        <label className={clsx(
+          "block text-sm font-semibold",
+          isAuthPage ? "text-gray-700" : "text-gray-700"
+        )}>
           {label}
           {required && <span className="text-red-500 ml-1">*</span>}
         </label>
       )}
       <select
         className={clsx(
-          'w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
-          error && 'border-red-500 focus:ring-red-500',
+          'w-full px-4 py-3 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2',
+          isAuthPage 
+            ? 'bg-white border-gray-300 text-gray-900 focus:border-blue-500 focus:ring-blue-200' 
+            : 'border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+          error && 'border-red-500 focus:ring-red-200 focus:border-red-500',
           className
         )}
         {...props}
       >
         {options.map((option) => (
-          <option key={option.value} value={option.value}>
+          <option key={option.value} value={option.value} className="bg-white text-gray-900">
             {option.label}
           </option>
         ))}
       </select>
       {error && (
-        <p className="text-sm text-red-600">{error}</p>
+        <p className="text-sm font-medium text-red-600">
+          {error}
+        </p>
       )}
     </div>
   );

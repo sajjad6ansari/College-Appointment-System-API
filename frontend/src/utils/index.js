@@ -10,9 +10,3 @@ export {
   getBaseUrl,
   updateBaseUrl,
 } from './apis';
-
-// Export API examples for reference
-export * from './apiExamples';
-
-// Re-export default as named export for convenience
-export { default as ApiEndpoints } from './apis';

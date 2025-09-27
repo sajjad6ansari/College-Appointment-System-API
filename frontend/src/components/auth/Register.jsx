@@ -54,15 +54,33 @@ const Register = () => {
       return;
     }
 
+    // eslint-disable-next-line no-unused-vars
     const { confirmPassword, ...userData } = data;
     dispatch(registerUser(userData));
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen bg-gray-50 flex relative">
+      {/* Professional Background Pattern */}
+      <div className="absolute inset-0 bg-white">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-gray-100"></div>
+        <div className="absolute top-0 left-0 w-full h-full opacity-[0.03]">
+          <svg className="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="register-grid" width="10" height="10" patternUnits="userSpaceOnUse">
+                <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#000" strokeWidth="0.5"/>
+              </pattern>
+            </defs>
+            <rect width="100" height="100" fill="url(#register-grid)" />
+          </svg>
+        </div>
+      </div>
+      
+      {/* Left side - Register Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative z-10 bg-gradient-to-br from-green-50 to-emerald-50">
+        <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <div className="mx-auto h-12 w-12 bg-blue-600 rounded-lg flex items-center justify-center">
+          <div className="mx-auto h-14 w-14 bg-green-600 rounded-xl flex items-center justify-center shadow-lg">
             <svg className="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
             </svg>
@@ -71,15 +89,15 @@ const Register = () => {
             Create Account
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Join our appointment system
+            Join our appointment system today
           </p>
         </div>
 
-        <Card>
-          <CardContent className="pt-6">
+        <Card className="bg-white shadow-xl border-0 rounded-2xl">
+          <CardContent className="p-8">
             <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
               <Select
-                label="I am a"
+                label="Role"
                 required
                 options={[
                   { value: 'student', label: 'Student' },
@@ -149,7 +167,7 @@ const Register = () => {
 
               <Button
                 type="submit"
-                className="w-full"
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg shadow-md transition-colors duration-200 focus:ring-4 focus:ring-green-200"
                 loading={isLoading}
                 disabled={isLoading}
               >
@@ -158,23 +176,12 @@ const Register = () => {
             </form>
 
             <div className="mt-6">
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-300" />
-                </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-gray-500">
-                    Already have an account?
-                  </span>
-                </div>
-              </div>
-
-              <div className="mt-6">
-                <Link
-                  to="/login"
-                  className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+              <div className="text-center mt-6">
+                <Link 
+                  to="/login" 
+                  className="text-sm text-gray-600 hover:text-green-600 font-medium transition-colors duration-200"
                 >
-                  Sign In Instead
+                  Already have an account? <span className="text-green-600 hover:text-green-700">Sign in</span>
                 </Link>
               </div>
             </div>
@@ -185,6 +192,64 @@ const Register = () => {
           <p className="text-xs text-gray-500">
             By creating an account, you agree to our Terms of Service
           </p>
+        </div>
+      </div>
+      </div>
+      
+      {/* Right side - Welcome Information */}
+      <div className="hidden lg:flex lg:w-1/2 relative z-10 flex-col justify-center px-8 py-12 bg-gradient-to-br from-green-50 to-emerald-50">
+        <div className="max-w-lg mx-auto">
+          <div className="text-center mb-8">
+            <div className="h-16 w-16 bg-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <svg className="h-9 w-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+            </div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Welcome to Our Academic Community
+            </h2>
+            <p className="text-lg text-gray-600">
+              Join thousands of students and professors who trust our platform for seamless academic collaboration.
+            </p>
+          </div>
+          
+          <div className="space-y-8">
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-green-100 rounded-full mb-4">
+                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Quick Setup</h3>
+              <p className="text-gray-600">
+                Get started in minutes with our intuitive registration process
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full mb-4">
+                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Connected Learning</h3>
+              <p className="text-gray-600">
+                Build meaningful connections with professors and fellow students
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-purple-100 rounded-full mb-4">
+                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Trusted Platform</h3>
+              <p className="text-gray-600">
+                Secure, reliable, and designed specifically for academic excellence
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

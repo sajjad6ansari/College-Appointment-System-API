@@ -4,20 +4,28 @@ A robust **College Appointment Booking System** that enables students to book ap
 
 ## 🚀 Features
 
-- **User Authentication & Authorization**: JWT-based auth system for students and professors
-- **Role-Based Access Control**: Separate functionalities for students and professors
-- **Appointment Management**: Create, view, confirm, and cancel appointments
-- **Time Slot Management**: Professors can set working hours, students can book specific time slots
+### Core Functionality
+- **Professional Authentication**: JWT-based auth system with clean, maintainable code
+- **Role-Based Access Control**: Optimized separate functionalities for students and professors
+- **Streamlined Appointment Management**: Create, view, confirm, and cancel appointments
+- **Smart Time Slot Management**: Professors set availability, students book specific slots
 - **Real-time Status Updates**: Track appointment status (pending, confirmed, canceled)
-- **UI-Friendly Endpoints**: Complete set of routes designed for frontend integration
-- **Professor Directory**: Students can browse all available professors
-- **Dashboard Analytics**: Statistics and insights for professors
-- **Profile Management**: Both students and professors can view and update their profiles
-- **Appointment History**: Complete appointment tracking with filtering and pagination
-- **Input Validation**: Comprehensive validation for all inputs
-- **Security**: Helmet, CORS, XSS protection, password hashing with bcrypt
-- **API Documentation**: Swagger/OpenAPI documentation available
-- **Error Handling**: Custom error classes with proper HTTP status codes
+- **UI-Friendly Endpoints**: Complete REST API designed for modern frontend integration
+
+### Professional Enhancements
+- **Clean Architecture**: Refactored app.js from 381 lines to 158 professional lines
+- **Organized Documentation**: Professional HTML documentation pages with modern design
+- **Optimized Structure**: Removed unused files and streamlined codebase
+- **Professional API Docs**: Clean, responsive documentation served from `/public` folder
+- **Enhanced Error Handling**: Comprehensive custom error classes with proper HTTP codes
+
+### System Features  
+- **Professor Directory**: Browse available professors with detailed information
+- **Dashboard Analytics**: Statistics and insights for appointment management
+- **Profile Management**: Comprehensive profile updates for both user types
+- **Appointment History**: Complete tracking with filtering and pagination capabilities
+- **Security First**: Helmet, CORS, XSS protection, bcrypt password hashing
+- **Professional Documentation**: Swagger/OpenAPI with custom HTML interfaces
 
 ## 🛠 Technologies Used
 
@@ -64,9 +72,12 @@ A robust **College Appointment Booking System** that enables students to book ap
    ```
 
 5. **Access the application:**
-   - API Base URL: `http://localhost:4000`
-   - Swagger Documentation: `http://localhost:4000/api-docs`
-   - Home Page: `http://localhost:4000`
+   - **API Base URL**: `http://localhost:4000`
+   - **Professional API Docs**: `http://localhost:4000/api/v1/docs`
+   - **Interactive Swagger Docs**: `http://localhost:4000/api-docs`  
+   - **API Information**: `http://localhost:4000/api/v1/docs/info`
+   - **Welcome Page**: `http://localhost:4000`
+   - **Health Check**: `http://localhost:4000/health`
 
 ## 📊 Database Schema
 
@@ -726,13 +737,13 @@ curl -X PATCH http://localhost:4000/api/v1/professor/profile \
 
 ```
 backend/
-├── app.js                 # Main application entry point
+├── app.js                 # Clean, professional Express app (158 lines)
 ├── package.json           # Dependencies and scripts
-├── swagger.yaml          # API documentation
+├── swagger.yaml          # API documentation schema
 ├── controllers/          # Request handlers
 │   ├── auth.js           # Authentication logic
 │   ├── professor.js      # Professor-specific operations
-│   └── student.js        # Student-specific operations
+│   └── student.js        # Student-related operations
 ├── db/
 │   └── connect.js        # MongoDB connection
 ├── errors/               # Custom error classes
@@ -748,9 +759,11 @@ backend/
 │   ├── Appointment.js
 │   ├── Professor.js
 │   └── Student.js
-├── public/               # Static files
-│   ├── favicon.ico
-│   └── home.html
+├── public/               # Professional documentation
+│   ├── favicon.ico       # Application favicon
+│   ├── home.html         # Welcome page
+│   ├── api-docs.html     # Professional API documentation
+│   └── api-info.html     # API information page
 └── routes/               # Route definitions
     ├── auth.js
     ├── professor.js
@@ -770,12 +783,14 @@ backend/
 
 ## 🧪 Testing
 
-The API can be tested using:
+The API can be tested using multiple professional interfaces:
 
-1. **Swagger UI**: Visit `http://localhost:4000/api-docs` for interactive testing
-2. **Postman**: Import the provided Postman collection
-3. **cURL**: Use the command-line examples provided above
-4. **Frontend Integration**: Connect with any frontend framework
+1. **Professional API Docs**: Visit `http://localhost:4000/api/v1/docs` for comprehensive documentation
+2. **Interactive Swagger UI**: Visit `http://localhost:4000/api-docs` for live API testing
+3. **API Information**: Visit `http://localhost:4000/api/v1/docs/info` for detailed API information
+4. **Postman**: Import the provided Postman collection for comprehensive testing
+5. **cURL**: Use the command-line examples provided throughout this documentation
+6. **Frontend Integration**: Professional REST API designed for modern frontend frameworks
 
 ## 🔐 Security Features
 
