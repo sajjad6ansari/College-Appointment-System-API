@@ -18,9 +18,15 @@ import ProfessorDashboard from './pages/professor/Dashboard';
 import ProfessorAppointments from './pages/professor/Appointments';
 import ProfessorSchedule from './pages/professor/Schedule';
 import ProfessorProfile from './pages/professor/Profile';
+import { warmBackendOnce } from './utils/warmBackend';
 
 function App() {
   const dispatch = useDispatch();
+
+  // Warm backend immediately on first paint (non-blocking)
+  useEffect(() => {
+    warmBackendOnce();
+  }, []);
 
   // Load user on app start if token exists
   useEffect(() => {
